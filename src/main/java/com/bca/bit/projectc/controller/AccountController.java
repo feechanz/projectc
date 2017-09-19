@@ -3,7 +3,9 @@ package com.bca.bit.projectc.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,30 +16,30 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bca.bit.projectc.model.Account;
 import com.bca.bit.projectc.repository.AccountRepository;
+import com.bca.bit.projectc.service.AccountService;
 
 @RestController
 @RequestMapping("/api")
 public class AccountController {
-	
+
 	@Autowired
-	AccountRepository accountRepository;
+	AccountService accountService;
 	
-	@RequestMapping("/accounts/{id}")
-    public Account product(@PathVariable Long id){
-        Account account = accountRepository.findOne(id);
-        return account;
+	@RequestMapping("/accounts/{accountnumber}")
+    public ResponseEntity<?> getAccount(@PathVariable String accountnumber){
+        Account account = accountService.getAccount(accountnumber);
+        return new ResponseEntity(account, HttpStatus.OK);
     }
  
-    @RequestMapping(value = "/accounts", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Account> productsList(){
-        List<Account> accounts = accountRepository.findAll();
-        return accounts;
+    @RequestMapping(value = "/accounts", method = RequestMethod.GET)
+    public ResponseEntity<?> getActiveAccounts(){
+        List<Account> accounts = accountService.getActiveAccounts();
+        return new ResponseEntity(accounts, HttpStatus.OK);
     }
  
     @RequestMapping(value = "/accounts", method = RequestMethod.POST)
     @ResponseBody
-    public Account saveProduct(@RequestBody Account account) {
-        return accountRepository.save(account);
+    public ResponseEntity<?> saveAccount(@RequestBody Account account) {
+        return new ResponseEntity(accountService.insertAccount(account), HttpStatus.OK);
     }
-    
 }

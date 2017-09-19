@@ -24,6 +24,7 @@ import lombok.Setter;
 public class Account{
 	public static final String TABLE_NAME = "TBL_ACCOUNT";
 	public static final String COLUMN_ID = "ACCOUNT_ID";
+	public static final String COLUMN_ACCOUNT_NUMBER = "ACCOUNT_NUMBER";
 	public static final String COLUMN_FULLNAME = "FULLNAME";
 	public static final String COLUMN_PASSWORD = "PASSWORD";
 	public static final String COLUMN_AMOUNT = "AMOUNT";
@@ -36,10 +37,13 @@ public class Account{
 	@Column(name = COLUMN_ID)
 	private Long accountid;
 	
-	@Column(name = COLUMN_FULLNAME, nullable = true)
+	@Column(name = COLUMN_ACCOUNT_NUMBER, nullable = true, length = 10)
+	private String accountnumber;
+	
+	@Column(name = COLUMN_FULLNAME, nullable = true, length = 100)
 	private String fullname;
 	
-	@Column(name = COLUMN_PASSWORD, nullable = true)
+	@Column(name = COLUMN_PASSWORD, nullable = true, length = 100)
 	private String password;
 	
 	@Column(name = COLUMN_AMOUNT, nullable = true)
